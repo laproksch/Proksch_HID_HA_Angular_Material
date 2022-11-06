@@ -34,7 +34,7 @@
 
     <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef> </th>
-        <td mat-cell *matCellDef="let element" style="text-align: left !important;"> <mat-icon *ngIf="deleting != element.id" (click)="deleteSensordata(element.id)">delete</mat-icon><mat-spinner [diameter]="25" *ngIf="deleting == element.id"></mat-spinner></td>
+        <td mat-cell *matCellDef="let element"> <mat-icon *ngIf="deleting != element.id" (click)="deleteSensordata(element.id)">delete</mat-icon><mat-spinner style="margin: auto;" [diameter]="25" *ngIf="deleting == element.id"></mat-spinner></td>
       </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
