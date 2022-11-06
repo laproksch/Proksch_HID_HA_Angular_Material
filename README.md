@@ -1,11 +1,16 @@
 # Proksch HA Angular Material
 
 This project is based on https://github.com/juliaschabasser/sensorenApp3
+
 Initially generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
 
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+
+## Backend Server
+
+Run `npm run server` to start a REST interface providing the data from db.json. Server runs under http://localhost:55000
 
 ## Code scaffolding
 
