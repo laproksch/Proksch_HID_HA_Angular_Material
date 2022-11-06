@@ -12,6 +12,7 @@ import { StoreService } from './store.service';
 export class BackendService {
 
   port = 55000;
+  callback: Function;
 
   constructor(private storeService: StoreService, private http: HttpClient) { }
 
@@ -29,6 +30,7 @@ export class BackendService {
       return { ...data, sensor }
     });
     this.storeService.sensorenDaten = sensorenData;
+    this.callback();
   }
 
   public async addSensorsData(sensorenData: Sensorendata[]) {
@@ -39,5 +41,9 @@ export class BackendService {
   public async deleteSensorsDaten(sensorId: number) {
     await firstValueFrom(this.http.delete(`http://localhost:${this.port}/sensorsData/${sensorId}`));
     await this.getSensorenDaten();
+  }
+
+  public registerReloadCallback(callback: Function) {
+    this.callback = callback;
   }
 }
