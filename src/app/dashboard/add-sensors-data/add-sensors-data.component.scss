@@ -1,6 +1,26 @@
 mat-form-field {
     margin-right: 10px;
 }
+
 form {
     margin-bottom: 25px;
+}
+
+.add-sensor-container {
+    text-align: center;
+}
+
+.save-status ::ng-deep .mat-progress-spinner circle,
+.mat-spinner circle {
+    stroke: #fff;
+}
+
+.save-status {
+    .save-text {
+        font-size: 17px;
+    }
+
+    .mat-spinner {
+        display: inline-block;
+    }
 }

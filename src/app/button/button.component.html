@@ -1,2 +1,4 @@
-<button mat-raised-button [ngStyle]="{ 'background-color': color }" color="primary" (click)="onClick()">{{ text
-  }}</button>
+<button mat-raised-button [ngStyle]="{ 'background-color': color }" color="primary" (click)="onClick()">
+  <span class="button-text">{{ text }} </span>
+  <mat-icon>{{icon}}</mat-icon>
+</button>
