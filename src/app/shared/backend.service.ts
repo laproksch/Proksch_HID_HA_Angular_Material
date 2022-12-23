@@ -4,6 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import { Sensor } from '../Sensor';
 import { Sensorendata } from '../Sensorendata';
 import { SensorendataResponse } from '../SensorendataResponse';
+import { ErrorService } from './error.service';
 import { StoreService } from './store.service';
 
 @Injectable({
@@ -14,7 +15,7 @@ export class BackendService {
   port = 55000;
   callback: Function;
 
-  constructor(private storeService: StoreService, private http: HttpClient) { }
+  constructor(private storeService: StoreService, private http: HttpClient, private readonly errorService: ErrorService) { }
 
   sensoren: Sensor[] = [];
 
@@ -24,28 +25,44 @@ export class BackendService {
   }
 
   public async getSensorenDaten() {
-    const sensorenDataResponse = await firstValueFrom(this.http.get<SensorendataResponse[]>(`http://localhost:${this.port}/sensorsData`));
-    const sensorenData: Sensorendata[]= sensorenDataResponse.map(data => {
-      const sensor: Sensor = this.sensoren.filter(sensor => sensor.id == data.sensorId)[0];
-      return { ...data, sensor }
-    });
-    sensorenData.sort((sd1, sd2) => new Date(sd2.date).getTime() - new Date(sd1.date).getTime());
-    this.storeService.sensorenDaten = sensorenData;
-    
-    this.callback();
+    try {
+      const sensorenDataResponse = await firstValueFrom(this.http.get<SensorendataResponse[]>(`http://localhost:${this.port}/sensorsData`));
+      const sensorenData: Sensorendata[] = sensorenDataResponse.map(data => {
+        const sensor: Sensor = this.sensoren.filter(sensor => sensor.id == data.sensorId)[0];
+        return { ...data, sensor }
+      });
+      sensorenData.sort((sd1, sd2) => new Date(sd2.date).getTime() - new Date(sd1.date).getTime());
+      this.storeService.sensorenDaten = sensorenData;
+
+      this.callback();
+    } catch (e) {
+      this.errorCallback(e);
+    }
   }
 
   public async addSensorsData(sensorenData: Sensorendata[]) {
-    await firstValueFrom(this.http.post(`http://localhost:${this.port}/sensorsData`, sensorenData));
-    await this.getSensorenDaten();
+    try {
+      await firstValueFrom(this.http.post(`http://localhost:${this.port}/sensorsData`, sensorenData));
+      await this.getSensorenDaten();
+    } catch (e) {
+      this.errorCallback(e);
+    }
   }
 
   public async deleteSensorsDaten(sensorId: number) {
-    await firstValueFrom(this.http.delete(`http://localhost:${this.port}/sensorsData/${sensorId}`));
-    await this.getSensorenDaten();
+    try {
+      await firstValueFrom(this.http.delete(`http://localhost:${this.port}/sensorsData/${sensorId}`));
+      await this.getSensorenDaten();
+    } catch (e) {
+      this.errorCallback(e);
+    }
   }
 
   public registerReloadCallback(callback: Function) {
     this.callback = callback;
+  }
+
+  private errorCallback(error: any): any {
+    this.errorService.showError(error.message);
   }
 }
