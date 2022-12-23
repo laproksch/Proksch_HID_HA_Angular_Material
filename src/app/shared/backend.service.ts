@@ -29,7 +29,9 @@ export class BackendService {
       const sensor: Sensor = this.sensoren.filter(sensor => sensor.id == data.sensorId)[0];
       return { ...data, sensor }
     });
+    sensorenData.sort((sd1, sd2) => new Date(sd2.date).getTime() - new Date(sd1.date).getTime());
     this.storeService.sensorenDaten = sensorenData;
+    
     this.callback();
   }
 
