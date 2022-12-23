@@ -4,3 +4,16 @@ td, th {
 table {
     width: 100%;   
 }
+
+.delete-button:hover {
+    cursor: pointer;
+}
+
+.delete-cell ::ng-deep .mat-progress-spinner circle,
+.mat-spinner circle {
+    stroke: #000;
+}
+
+.delete-cell .mat-spinner {
+    margin: auto;
+}

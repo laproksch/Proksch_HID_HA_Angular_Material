@@ -12,6 +12,7 @@ import { StoreService } from 'src/app/shared/store.service';
   styleUrls: ['./sensors-data.component.scss']
 })
 export class SensorsDataComponent implements OnInit, AfterViewInit {
+  loading = false;
 
   displayedColumns: string[] = ['sensor', 'date', 'temperature', 'humidity', 'location', 'position', 'delete'];
 
@@ -30,12 +31,14 @@ export class SensorsDataComponent implements OnInit, AfterViewInit {
   }
 
   async ngOnInit() {
+    this.loading = true;
     this.backendService.registerReloadCallback(() => {
       this.initDataSource();
     });
     await this.backendService.getSensoren();
     await this.backendService.getSensorenDaten();
     this.initDataSource();
+    this.loading = false;
   }
 
   async deleteSensordata(id: number) {

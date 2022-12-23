@@ -1,0 +1,12 @@
+.loading-container {
+    margin-top: 20px;
+    text-align: center;
+    mat-spinner {
+        display: inline-block;
+    }
+}
+
+.loading-container ::ng-deep .mat-progress-spinner circle,
+.mat-spinner circle {
+    stroke: #000;
+}

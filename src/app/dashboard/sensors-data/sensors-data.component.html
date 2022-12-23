@@ -1,4 +1,6 @@
-<table mat-table [dataSource]="dataSource">
+<app-loading *ngIf="loading"></app-loading>
+<div *ngIf="!loading">
+  <table mat-table [dataSource]="dataSource">
 
     <ng-container matColumnDef="sensor">
       <th mat-header-cell *matHeaderCellDef> Sensor </th>
@@ -21,27 +23,28 @@
     </ng-container>
 
     <ng-container matColumnDef="location">
-        <th mat-header-cell *matHeaderCellDef> Standort </th>
-        <td mat-cell *matCellDef="let element"> {{element.sensor?.location}} </td>
-      </ng-container>
+      <th mat-header-cell *matHeaderCellDef> Standort </th>
+      <td mat-cell *matCellDef="let element"> {{element.sensor?.location}} </td>
+    </ng-container>
 
 
     <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef> Position </th>
-        <td mat-cell *matCellDef="let element"> {{element.sensor.position}} </td>
-      </ng-container>
+      <th mat-header-cell *matHeaderCellDef> Position </th>
+      <td mat-cell *matCellDef="let element"> {{element.sensor.position}} </td>
+    </ng-container>
 
 
     <ng-container matColumnDef="delete">
-        <th mat-header-cell *matHeaderCellDef> </th>
-        <td mat-cell *matCellDef="let element"> <mat-icon *ngIf="deleting != element.id" (click)="deleteSensordata(element.id)">delete</mat-icon><mat-spinner style="margin: auto;" [diameter]="25" *ngIf="deleting == element.id"></mat-spinner></td>
-      </ng-container>
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let element" class="delete-cell"> <mat-icon class="delete-button" *ngIf="deleting != element.id"
+          (click)="deleteSensordata(element.id)">delete</mat-icon><mat-spinner [diameter]="24"
+          *ngIf="deleting == element.id"></mat-spinner></td>
+    </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                 showFirstLastButtons 
-                 aria-label="Select page of periodic elements">
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
   </mat-paginator>
+</div>
